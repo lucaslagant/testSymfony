@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\CreatedAtTrait;
 use App\Repository\ProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Products
 {
+    use CreatedAtTrait;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,9 +30,6 @@ class Products
 
     #[ORM\Column]
     private ?int $stock = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
@@ -98,19 +98,7 @@ class Products
         $this->stock = $stock;
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
+    }   
 
     public function getCategories(): ?Categories
     {
